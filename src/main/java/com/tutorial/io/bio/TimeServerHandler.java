@@ -1,4 +1,4 @@
-package com.tutorial.netty.bio;
+package com.tutorial.io.bio;
 
 import java.io.BufferedReader;
 import java.io.IOException;

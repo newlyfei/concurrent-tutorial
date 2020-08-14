@@ -1,6 +1,4 @@
-package com.tutorial.netty.async;
-
-import com.tutorial.netty.bio.TimeServerHandler;
+package com.tutorial.io.bio;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -20,10 +18,9 @@ public class TimeServer {
             serverSocket=new ServerSocket(port);
             System.out.println("The time server is start in port :"+port);
             Socket socket=null;
-            TimeServerHandlerExecutePool singleExecutor = new TimeServerHandlerExecutePool(50,10000);
             while (true){
                 socket=serverSocket.accept();
-                singleExecutor.execute(new TimeServerHandler(socket));
+                new Thread(new TimeServerHandler(socket)).start();
             }
         }finally {
             if(serverSocket!=null){
@@ -34,4 +31,3 @@ public class TimeServer {
         }
     }
 }
-

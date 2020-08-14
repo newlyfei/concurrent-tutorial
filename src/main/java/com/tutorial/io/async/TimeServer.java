@@ -1,9 +1,14 @@
-package com.tutorial.netty.bio;
+package com.tutorial.io.async;
+
+import com.tutorial.io.bio.TimeServerHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * 基于线程池的阻塞IO
+ */
 public class TimeServer {
     public static void main(String[] args) throws IOException {
         int port=8081;
@@ -18,9 +23,10 @@ public class TimeServer {
             serverSocket=new ServerSocket(port);
             System.out.println("The time server is start in port :"+port);
             Socket socket=null;
+            TimeServerHandlerExecutePool singleExecutor = new TimeServerHandlerExecutePool(50,10000);
             while (true){
                 socket=serverSocket.accept();
-                new Thread(new TimeServerHandler(socket)).start();
+                singleExecutor.execute(new TimeServerHandler(socket));
             }
         }finally {
             if(serverSocket!=null){
@@ -31,3 +37,4 @@ public class TimeServer {
         }
     }
 }
+
